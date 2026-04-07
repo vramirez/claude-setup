@@ -1,6 +1,5 @@
 # Critical Rules (NEVER IGNORE)
 
-- NEVER mention Claude/Anthropic in commits or messages
 - NEVER use emojis unless explicitly requested
 - ALWAYS create a new git branch for any non-trivial change (features, bugfixes, refactors)
 - ALWAYS run linter/type checker before committing
@@ -111,3 +110,8 @@ These rules counter known LLM coding-agent failure modes. Follow them on every t
 - Have frequent commits for each subtask solved. Leverage git heavily. Use gh command as much as possible
 - Always have runnable snippets to test out modules
   - Make them persistent. Don't just create ephemeral python strings and dump them.
+
+## Git/GH Hooks
+
+There's  a hook triggering on any `git` or `gh` command and delegates to `~/.claude/hooks/git-rules.sh`.
+To add new rules (e.g. for `git push`, `gh pr create`), edit that script
