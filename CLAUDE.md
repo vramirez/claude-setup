@@ -98,7 +98,7 @@ These rules counter known LLM coding-agent failure modes. Follow them on every t
 
 # Coding Workflow
 
-- When coding, before proceeding to write code, always invoke and remember the pragmatic programmer tips listed at: https://pragprog.com/tips/
+- Before writing code, invoke the `pragmatic-programmer` skill to apply the principles and consult the full tip list.
 
 ## Plan Mode Tiers
 - **Micro-change** (< 20 lines, single file): Skip plan mode. State assumptions inline (Rule 8).
