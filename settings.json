@@ -59,6 +59,9 @@
     ]
   },
   "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
   "voiceEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "theme": "light",
+  "preferredNotifChannel": "terminal_bell",
+  "skipAutoPermissionPrompt": true
 }
