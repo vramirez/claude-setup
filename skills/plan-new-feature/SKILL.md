@@ -84,6 +84,46 @@ Then:
 git checkout -b victor-<slug>
 ```
 
+## Step 7.5 — Backlog tasks (optional, auto-detected)
+
+Detect whether this project uses the `backlog` CLI:
+
+```
+command -v backlog &> /dev/null && [ -d backlog ]
+```
+
+If **both** are true, use `AskUserQuestion` with one question:
+
+> "Create backlog parent + child tasks for this work?" (Yes / Skip)
+
+On **Yes**, create a parent epic with `$ARGUMENTS` as its description:
+
+```
+backlog task create "Feature: <derived one-line summary>" \
+  -d "$ARGUMENTS" \
+  --priority high --plain
+```
+
+Capture the returned task ID as `<epic-id>`. Then for each sub-task in the approved plan, create a child task:
+
+```
+backlog task create "<sub-task title>" \
+  --parent <epic-id> \
+  -d "<self-contained context for this sub-task>" \
+  --ac "<acceptance criterion>" \
+  --plan "<implementation approach>" \
+  --priority high --plain
+```
+
+During Step 8, edit task status as work progresses:
+
+```
+backlog task edit <id> -s "in progress"
+backlog task edit <id> -s "done"
+```
+
+On **Skip**, or if the detection check failed: skip this step silently. No noise on machines without the tool.
+
 ## Step 8 — Implement using TDD red-green-refactor
 
 Apply these pragmatic principles throughout the loop:
