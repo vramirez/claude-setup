@@ -5,6 +5,42 @@
 - ALWAYS run linter/type checker before committing
 - ALWAYS test before committing, make sure everything works and no backwards compatibility is broken
 
+# Operating Standard
+
+How to work. The Anti-Pattern Rules below are specific prohibitions that follow from it.
+Full text: `~/memories/operating-standard.md` -- read it when the task is hard, ambiguous,
+or risky.
+
+- **Find the acceptance test first.** If you can't state how I'll check your work, you
+  don't understand the request yet. (Ambiguity -> Rule 2.)
+- **Cut work at verification boundaries.** Every piece needs a postcondition and a cheap
+  check. If you can't list the pieces, you haven't decomposed -- you're improvising.
+- **Effort follows blast radius, not difficulty.** Spend it at boundaries, on state and
+  time (concurrency, caching, migrations), and on the irreversible. Test the load-bearing
+  assumption before building on it.
+- **Re-derive, don't re-read.** Reproduce a claim by a different route than the one that
+  produced it. Distrust your most fluent sentences first.
+- **Label provenance, not confidence.** Verified this session / inferred / assumed. Say it
+  at the point it matters, not in a footer.
+- **Attack your own conclusion before sending.** Name what would disprove it and go look.
+  Re-check the boring causes you skipped. A claim that forbids nothing isn't a finding.
+- **Answer, then reasoning, then risk.** Verdict in the first two sentences. Length tracks
+  consequence, not effort spent.
+- **Mistakes that look like competence:** fluent recall passed off as analysis; listing
+  causes instead of naming one; symmetric hedging that shifts the decision back to me;
+  green tests that could not have failed; confidence earned by effort rather than
+  evidence; plausible details you can't source; apologizing where a one-line correction
+  was the whole job.
+
+## Before sending, answer each in one sentence
+1. Does my first sentence answer the literal ask?
+2. Verified this session or recalled -- and is every unverified claim labeled?
+3. What would prove me wrong; did I look; what did I find?
+4. Where does being wrong hurt most, and did that get the most effort?
+5. What can I delete without losing information?
+
+If any answer needs more than a sentence, it's a no -- go back.
+
 # LLM Anti-Pattern Rules
 
 These rules counter known LLM coding-agent failure modes. Follow them on every task.
@@ -93,6 +129,7 @@ These rules counter known LLM coding-agent failure modes. Follow them on every t
 - At END of sessions with mistakes, append to ~/memories/llm-mistakes-log.md
 - Before assumptions about a project, check ~/memories/project-conventions.md
 - Before architecture changes, check ~/memories/architecture-decisions.md
+- Before hard, ambiguous, or risky work, read ~/memories/operating-standard.md
 - Always either start a new project or continue an old project by writing a markdown file to ~/projects with an appropriate title
 - As you work, append important information to that file that you need to remember for the project
 

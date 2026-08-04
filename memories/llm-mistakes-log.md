@@ -10,6 +10,8 @@ Track mistakes made by LLM coding agents across sessions to prevent repeat failu
 
 ## Common Patterns to Watch For
 
+(Full catalogue, incl. failure modes that read as competence: ~/memories/operating-standard.md)
+
 - Assuming API shapes without reading source code
 - Over-engineering simple requests
 - Silently choosing one interpretation of ambiguous requirements
