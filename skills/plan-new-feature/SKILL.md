@@ -152,6 +152,7 @@ For each sub-task in the approved plan, repeat this loop:
    ```
 
 Commit atomically throughout: one logical change per commit. Subject lines must be **≤ 50 chars** (the `~/.claude/hooks/git-rules.sh` hook will reject longer ones). **Never** include `Co-Authored-By` lines.
+Never fix a test by weakening it. Fix the code, not the test.
 
 ## Step 9 — Full lint + test sweep
 
