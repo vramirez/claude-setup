@@ -26,3 +26,12 @@ Add a section per project as you work on them. Format:
 - **Build/Run**: [how to build and run]
 - **Key constraints**: [anything unusual the LLM keeps forgetting]
 ```
+
+## backlog-mcp
+
+- **Stack**: Python >=3.12, mcp==2.0.0 (SDK v2, MCPServer), uvicorn, uv + hatchling
+- **Linting**: uvx ruff check (no config committed)
+- **Testing**: uv run pytest; integration tests marked `integration`, need backlog CLI + git
+- **Branch workflow**: feature branches, TDD red-green commit pairs
+- **Build/Run**: uv run backlog-mcp --port 8765 --allowed-dirs <roots>; endpoint at /mcp
+- **Key constraints**: backlog `board export` resolves even absolute paths against the project root; `overview`/`board view` are TUI-only (never subprocess them); backlog binary lives in ~/.nvm so BACKLOG_MCP_BIN may be needed off-shell
