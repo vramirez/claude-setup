@@ -12,14 +12,22 @@ Track mistakes made by LLM coding agents across sessions to prevent repeat failu
 
 ## Common Patterns to Watch For
 
-(Full catalogue, incl. failure modes that read as competence: ~/memories/operating-standard.md)
-
 - Assuming API shapes without reading source code
 - Over-engineering simple requests
 - Silently choosing one interpretation of ambiguous requirements
 - Modifying code outside the task scope
 - Leaving dead code after refactors
 - Creating abstractions before they're needed
+- Fluent recall passed off as analysis
+- Listing possible causes instead of naming one
+- Symmetric hedging that pushes the decision back to me
+- Running a check that could not have failed
+- Confidence earned by effort rather than evidence
+- Plausible file/flag/error details that can't be sourced
+- Stopping at the first coherent story
+- Apologizing where a one-line correction was the job
+- Dropping a measured result on mere assertion
+- Delivering the tractable 80% and reporting done
 
 ## Instructions
 
