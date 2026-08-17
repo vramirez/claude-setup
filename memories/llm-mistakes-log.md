@@ -7,6 +7,8 @@ Track mistakes made by LLM coding agents across sessions to prevent repeat failu
 | Date | Project | Mistake | Root Cause | Prevention |
 |------|---------|---------|------------|------------|
 | 2026-02-05 | (setup) | N/A -- log initialized | N/A | Review this log at session start |
+| 2026-08-03 | (setup) | Commit broke this repo's own git hook: 54-char subject + Co-Authored-By trailers | Piped `git commit` through `tail -8`, which cut off the hook's warning | Never filter tool output past where warnings appear; read commit/hook output in full |
+| 2026-08-03 | (setup) | All 12 runs of an A/B test answered a one-word prompt; whole run void | `xargs` + `eval` re-split the quoted prompt down to its first word | Pass long prompts via files, not shell args; validate one run before spending N |
 
 ## Common Patterns to Watch For
 
