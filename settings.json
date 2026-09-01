@@ -3,9 +3,11 @@
     "allow": [
       "Read",
       "Grep",
-      "Glob"
+      "Glob",
+      "Bash(ssh deploy@157.230.51.78 *)"
     ]
   },
+  "model": "fable[1m]",
   "hooks": {
     "PreToolUse": [
       {
