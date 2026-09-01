@@ -37,3 +37,7 @@ Append a row after any session where the LLM:
 3. Broke existing functionality
 4. Modified code outside the task scope
 5. Left dead code or commented-out blocks
+
+## 2026-08-31 (navigate-app, TASK-119/120 session)
+- Committed a backlog chore commit on local dev, then branched WITHOUT pushing dev first: the chore commit rode into the feature PR's squash unannounced. Push dev (or branch from origin/dev) before cutting a feature branch.
+- Tried to prevent a deploy-vs-nightly-pipeline race by disabling the deploy workflow AFTER checking CI state that was already stale; the deploy had finished 5 min earlier and the "protection" was a no-op. Check `gh run list` timestamps (and actual step durations, not last release's) before acting on a projected race.
