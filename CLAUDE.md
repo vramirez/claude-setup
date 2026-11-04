@@ -58,10 +58,7 @@ These rules counter known LLM coding-agent failure modes. Follow them on every t
 
 # About User
 
-- Name: Victor Ramirez
-- Preferred language: english, but native spanish speaker also
-- Role: remote Data and ML engineer with deep knowledge of python, AWS and ML techniques
-- Keep in mind for your responses that I'm a bit dyslexic
+@~/.claude/CLAUDE.personal.md
 
 # Environment
 
@@ -69,10 +66,6 @@ These rules counter known LLM coding-agent failure modes. Follow them on every t
 - My github handle is vramirez
 - gh cli is available, make it preferred way to interact with github
 - In case gh cli is not available, use ssh authentication (it's already setup and working)
-
-## System
-- Fedora Cinnamon Linux installation
-- Lenovo X1C6 computer brand
 
 ## MCP Servers
 - Use context7 which pulls up-to-date, version-specific documentation and code examples straight from the source

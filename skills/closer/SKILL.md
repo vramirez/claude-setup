@@ -64,7 +64,7 @@ Never write to a repo's tracked files (like its `CLAUDE.md` or README) without t
 
 ## Step 4 — Show the list and confirm
 
-The user is a bit dyslexic. Keep it short and scannable: one line per item, plain words, no long paragraphs.
+Keep it short and scannable: one line per item, plain words, no long paragraphs.
 
 Show a numbered table:
 

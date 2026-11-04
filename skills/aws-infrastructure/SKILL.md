@@ -95,7 +95,7 @@ aws sagemaker describe-training-job --training-job-name <job-name>
 aws sagemaker list-training-jobs --max-results 10
 
 # Download trained model after completion
-aws s3 cp s3://navigate-train/output/<job-name>/output/model.tar.gz .
+aws s3 cp s3://<training-bucket>/output/<job-name>/output/model.tar.gz .
 tar -xzf model.tar.gz -C ./model/
 ```
 
@@ -152,7 +152,7 @@ aws logs tail /aws/sagemaker/TrainingJobs --follow
 ## Project-Specific Resources
 
 ### S3 Buckets
-- `navigate-train` - ML model training data and artifacts
+- `<training-bucket>` - ML model training data and artifacts (real bucket names: `~/memories/project-conventions.md`, local only)
   - `data/` - Training datasets
   - `output/` - Model artifacts from SageMaker jobs
   - `source/` - Training source code archives
@@ -175,7 +175,7 @@ Training jobs use spot instances by default (~70% cost savings):
 Always clean up unused resources:
 ```bash
 # Delete old training job artifacts
-aws s3 rm s3://navigate-train/output/old-job/ --recursive
+aws s3 rm s3://<training-bucket>/output/old-job/ --recursive
 
 # Destroy CDK stacks when not needed
 cdk destroy
@@ -223,14 +223,14 @@ Ensure IAM user/role has required permissions:
 ### Upload Data and Train Model
 ```bash
 # 1. Upload training data
-aws s3 cp data/training.json s3://navigate-train/data/
+aws s3 cp data/training.json s3://<training-bucket>/data/
 
 # 2. Launch training
 cd infra/sagemaker-training/
 python launch_training.py --epochs 5 --wait
 
 # 3. Download model
-aws s3 cp s3://navigate-train/output/<job>/output/model.tar.gz .
+aws s3 cp s3://<training-bucket>/output/<job>/output/model.tar.gz .
 tar -xzf model.tar.gz -C ./trained_model/
 ```
 

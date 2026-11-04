@@ -18,8 +18,6 @@ Version-controlled configuration for Claude Code. This repo is the single source
 | `agents/pragmatic-programmer.md` | `~/.claude/agents/pragmatic-programmer.md` | Design, build and review with Pragmatic Programmer principles |
 | `agents/requirements-analyst.md` | `~/.claude/agents/requirements-analyst.md` | Turns informal requests into formal requirements |
 | `agents/technical-plan-reviewer.md` | `~/.claude/agents/technical-plan-reviewer.md` | Reviews plans and breaks them into backlog tasks |
-| `memories/llm-mistakes-log.md` | `~/memories/llm-mistakes-log.md` | Running log of LLM mistakes to prevent repeats |
-| `memories/project-conventions.md` | `~/memories/project-conventions.md` | Per-project facts template (stack, tooling, constraints) |
 | `memories/architecture-decisions.md` | `~/memories/architecture-decisions.md` | Architecture Decision Records |
 | `memories/workflow-templates.md` | `~/memories/workflow-templates.md` | Declarative prompt templates (bug fix, feature, refactor, pipeline) |
 | `scripts/pre-commit-quality-gate.sh` | `~/code/claude-scripts/pre-commit-quality-gate.sh` | Generic pre-commit hook for any project |
@@ -63,8 +61,6 @@ ln -sf ~/projects/claude-setup/agents/ml-engineer.md ~/.claude/agents/ml-enginee
 ln -sf ~/projects/claude-setup/agents/pragmatic-programmer.md ~/.claude/agents/pragmatic-programmer.md
 ln -sf ~/projects/claude-setup/agents/requirements-analyst.md ~/.claude/agents/requirements-analyst.md
 ln -sf ~/projects/claude-setup/agents/technical-plan-reviewer.md ~/.claude/agents/technical-plan-reviewer.md
-ln -sf ~/projects/claude-setup/memories/llm-mistakes-log.md ~/memories/llm-mistakes-log.md
-ln -sf ~/projects/claude-setup/memories/project-conventions.md ~/memories/project-conventions.md
 ln -sf ~/projects/claude-setup/memories/architecture-decisions.md ~/memories/architecture-decisions.md
 ln -sf ~/projects/claude-setup/memories/workflow-templates.md ~/memories/workflow-templates.md
 ln -sf ~/projects/claude-setup/scripts/pre-commit-quality-gate.sh ~/code/claude-scripts/pre-commit-quality-gate.sh
@@ -86,12 +82,21 @@ Some files hold machine details (hostname, users, security setup) that must not 
 | Repo path | Symlinked from | Purpose |
 |-----------|---------------|---------|
 | `memories/system-notes.md` | `~/memories/system-notes.md` | Notes about this machine: fixes, quirks, setup facts |
+| `memories/llm-mistakes-log.md` | `~/memories/llm-mistakes-log.md` | Running log of LLM mistakes (names private projects) |
+| `memories/project-conventions.md` | `~/memories/project-conventions.md` | Per-project facts (stack, buckets, constraints) |
+| `CLAUDE.personal.md` | `~/.claude/CLAUDE.personal.md` | Personal details, imported by `CLAUDE.md` via `@~/.claude/CLAUDE.personal.md` |
 
 Create it on a new machine (starts empty, fill it in as you go). The `[ -e ]` guard keeps a re-run from wiping existing notes:
 
 ```bash
 [ -e ~/projects/claude-setup/memories/system-notes.md ] || printf '# System Notes\n' > ~/projects/claude-setup/memories/system-notes.md
 ln -sf ~/projects/claude-setup/memories/system-notes.md ~/memories/system-notes.md
+for f in memories/llm-mistakes-log.md memories/project-conventions.md CLAUDE.personal.md; do
+  [ -e ~/projects/claude-setup/$f ] || printf '# %s\n' "$f" > ~/projects/claude-setup/$f
+done
+ln -sf ~/projects/claude-setup/memories/llm-mistakes-log.md ~/memories/llm-mistakes-log.md
+ln -sf ~/projects/claude-setup/memories/project-conventions.md ~/memories/project-conventions.md
+ln -sf ~/projects/claude-setup/CLAUDE.personal.md ~/.claude/CLAUDE.personal.md
 ```
 
 ## Using the pre-commit hook

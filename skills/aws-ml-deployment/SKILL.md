@@ -46,7 +46,7 @@ def package_model(model_dir: str, output_path: str = 'model.tar.gz') -> str:
 
 Upload to S3:
 ```bash
-aws s3 cp model.tar.gz s3://navigate-train/models/<project>/<version>/model.tar.gz
+aws s3 cp model.tar.gz s3://<training-bucket>/models/<project>/<version>/model.tar.gz
 ```
 
 ### Step 2: Inference Script
@@ -383,7 +383,7 @@ from sagemaker.model_monitor import DataCaptureConfig
 data_capture_config = DataCaptureConfig(
     enable_capture=True,
     sampling_percentage=100,
-    destination_s3_uri='s3://navigate-train/monitoring/data-capture',
+    destination_s3_uri='s3://<training-bucket>/monitoring/data-capture',
     capture_options=['Input', 'Output'],
 )
 
