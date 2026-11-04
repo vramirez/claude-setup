@@ -12,4 +12,4 @@ The root `CLAUDE.md` in this repo is the user's GLOBAL instructions file (`~/.cl
 
 ## This repo is public
 
-Do not commit secrets, hostnames, IP addresses, usernames on servers, or notes about machine security (like passwordless sudo). Keep those in local-only files outside the repo.
+Do not commit secrets, hostnames, IP addresses, usernames on servers, or notes about machine security (like passwordless sudo). Keep those in local-only files: they still live in this repo and are symlinked like everything else, but are listed in `.gitignore` (for example `memories/system-notes.md`).
