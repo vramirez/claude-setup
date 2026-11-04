@@ -14,6 +14,9 @@ Version-controlled configuration for Claude Code. This repo is the single source
 | `memories/architecture-decisions.md` | `~/memories/architecture-decisions.md` | Architecture Decision Records |
 | `memories/workflow-templates.md` | `~/memories/workflow-templates.md` | Declarative prompt templates (bug fix, feature, refactor, pipeline) |
 | `scripts/pre-commit-quality-gate.sh` | `~/code/claude-scripts/pre-commit-quality-gate.sh` | Generic pre-commit hook for any project |
+| `skills/closer/` | `~/.claude/skills/closer` | `/closer`: save a long conversation's loose ends before leaving |
+| `skills/plan-new-feature/` | `~/.claude/skills/plan-new-feature` | `/plan-new-feature`: plan, TDD, and PR a feature |
+| `skills/pragmatic-programmer/` | `~/.claude/skills/pragmatic-programmer` | Pragmatic Programmer principles and the 100-tip list |
 
 ## Setup on a new machine
 
@@ -24,7 +27,7 @@ git clone git@github.com:vramirez/claude-setup.git ~/projects/claude-setup
 cd ~/projects/claude-setup
 
 # Create target directories if they don't exist
-mkdir -p ~/.claude/agents ~/memories ~/code/claude-scripts
+mkdir -p ~/.claude/agents ~/.claude/skills ~/memories ~/code/claude-scripts
 
 # Symlink everything
 ln -sf ~/projects/claude-setup/CLAUDE.md ~/.claude/CLAUDE.md
@@ -35,6 +38,9 @@ ln -sf ~/projects/claude-setup/memories/project-conventions.md ~/memories/projec
 ln -sf ~/projects/claude-setup/memories/architecture-decisions.md ~/memories/architecture-decisions.md
 ln -sf ~/projects/claude-setup/memories/workflow-templates.md ~/memories/workflow-templates.md
 ln -sf ~/projects/claude-setup/scripts/pre-commit-quality-gate.sh ~/code/claude-scripts/pre-commit-quality-gate.sh
+ln -sfn ~/projects/claude-setup/skills/closer ~/.claude/skills/closer
+ln -sfn ~/projects/claude-setup/skills/plan-new-feature ~/.claude/skills/plan-new-feature
+ln -sfn ~/projects/claude-setup/skills/pragmatic-programmer ~/.claude/skills/pragmatic-programmer
 ```
 
 ## Using the pre-commit hook
