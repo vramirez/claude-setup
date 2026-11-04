@@ -1,0 +1,3 @@
+
+# Local-only: symlinked like the rest, but holds host details that must not be public
+memories/system-notes.md
