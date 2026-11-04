@@ -2,7 +2,7 @@
 name: closer
 description: Before leaving a long conversation, sweep it for loose ends (recommendations never acted on, bugs found but not fixed, lessons not recorded, open questions) and persist each one to the right place (task, memory, project notes) so nothing is lost.
 argument-hint: "[optional focus, e.g. 'only tasks' or 'skip memory']"
-allowed-tools: Bash(git *), Bash(gh *), Bash(backlog *), Bash(ls *), Bash(grep *), Bash(date *), Read, Edit, Write, Glob, Grep, AskUserQuestion
+allowed-tools: Bash(git *), Bash(backlog *), Bash(ls *), Bash(grep *), Bash(date *), Read, Edit, Write, Glob, Grep, AskUserQuestion
 disable-model-invocation: true
 ---
 
@@ -11,6 +11,8 @@ disable-model-invocation: true
 Extra instructions from the user: $ARGUMENTS
 
 The user is about to leave a long conversation. Some things surfaced mid-conversation, got buried under later messages, and were never addressed. Your job is to find them, check they are not already saved, and persist each one in the right place. **Do not fix or implement anything.** Only capture.
+
+**Local only.** Write only to local files and to local tools the repo already uses for notes or tasks (for example `backlog`, when the repo has a `backlog/` dir or its `CLAUDE.md` names it). Never read from or write to an external system (GitHub issues, Jira, Linear, Slack, Google Docs, etc.) unless a `CLAUDE.md`, `AGENTS.md` or similar instruction file (user, folder or repo level) explicitly says to use it for tasks or notes. Asking the user does not replace that rule: if no instruction file names the system, do not offer it.
 
 Run these steps in order.
 
@@ -37,7 +39,8 @@ For each item, check if it is already recorded before you propose saving it. Loo
 - `~/memories/*.md`
 - The project's `CLAUDE.md` and the project note in `~/projects/<project>.md` if one exists.
 - `~/todos/`
-- The project's `backlog/` (run `backlog task list --plain` if that dir exists) and open GitHub issues (`gh issue list --limit 50`) if the repo has a GitHub remote.
+- The project's `backlog/` (run `backlog task list --plain` if that dir exists), or whatever local task/notes tool the repo's instruction files name.
+- An external tracker only if an instruction file explicitly names it (see **Local only**).
 - `git log --oneline -30` for things already committed.
 
 Drop items that are already saved. If something is saved but now outdated, mark it **update** instead of new.
@@ -48,9 +51,9 @@ Use this routing. When an item fits more than one row, or none, mark it **ask**.
 
 | Item | Default destination |
 |---|---|
+| Task for the current repo, repo's instruction files name a task/notes tool | That tool |
 | Task for the current repo, repo has `backlog/` | `backlog task create` (follow the `backlog-manager` skill) |
-| Task for the current repo, no backlog | The "Open items" section of `~/projects/<project>.md` (create the section if missing) |
-| Task that should be a GitHub issue | Only if the user picks it. Opening an issue is outward-facing. |
+| Task for the current repo, no task tool | The "Open items" section of `~/projects/<project>.md` (create the section if missing) |
 | Task not tied to one repo (system, personal, cross-project) | `~/todos/YYYY-MM-DD-closer.md` (today's date) |
 | Lesson or fact about this project | Auto-memory, type `project` or `reference` |
 | Lesson that applies to all projects | `~/memories/project-conventions.md` or `~/memories/system-notes.md` |
@@ -92,7 +95,7 @@ For each approved item:
 - For auto-memory: one fact per file with the frontmatter format from the system prompt, then add the one-line pointer to `MEMORY.md`. Update an existing file instead of making a duplicate.
 - For markdown files: append, never rewrite existing content.
 - For backlog: `backlog task create "<title>" -d "<description>"`.
-- For GitHub issues: `gh issue create`, only when the user chose it.
+- For an external system: only when an instruction file explicitly names it (see **Local only**).
 
 ## Step 6 — Report
 
