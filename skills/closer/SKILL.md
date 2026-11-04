@@ -2,7 +2,7 @@
 name: closer
 description: Before leaving a long conversation, sweep it for loose ends (recommendations never acted on, bugs found but not fixed, lessons not recorded, open questions) and persist each one to the right place (task, memory, project notes) so nothing is lost.
 argument-hint: "[optional focus, e.g. 'only tasks' or 'skip memory']"
-allowed-tools: Bash(git *), Bash(backlog *), Bash(ls *), Bash(grep *), Bash(date *), Read, Edit, Write, Glob, Grep, AskUserQuestion
+allowed-tools: Bash(git log *), Bash(backlog *), Bash(timeout 30s backlog *), Bash(ls *), Bash(date *), Read, Edit, Write, Glob, Grep, AskUserQuestion
 disable-model-invocation: true
 ---
 
@@ -18,7 +18,7 @@ Run these steps in order.
 
 ## Step 1 — Sweep the whole conversation
 
-Re-read the conversation from the first message, not just the recent part. The items that matter most are usually early and buried. Collect every item that fits one of these kinds:
+Re-read the conversation from the first message, not just the recent part. The items that matter most are usually early and buried. If the conversation was compacted (you see a summary instead of the first messages), the early part is gone from context: Grep the full transcript at `~/.claude/projects/<key>/${CLAUDE_SESSION_ID}.jsonl` instead (`<key>` is the working directory with every `/` and `.` turned into `-`; if the id is not filled in, use the newest `.jsonl` there). Collect every item that fits one of these kinds:
 
 | Kind | What it looks like |
 |---|---|
@@ -37,9 +37,9 @@ For each item, check if it is already recorded before you propose saving it. Loo
 
 - The auto-memory dir for this project (the path is in the system prompt's Memory section) and its `MEMORY.md`.
 - `~/memories/*.md`
-- The project's `CLAUDE.md` and the project note in `~/projects/<project>.md` if one exists.
+- The project's `CLAUDE.md` and its project note in `~/projects/` if one exists. Notes are named by topic, not always by repo (for example `pstack-claude-fork.md`), so list `~/projects/*.md` and grep them for the repo name.
 - `~/todos/`
-- The project's `backlog/` (run `backlog task list --plain` if that dir exists), or whatever local task/notes tool the repo's instruction files name.
+- The project's `backlog/`: for each item run `timeout 30s backlog search '<keywords>' --plain` (it searches descriptions and notes, not only titles). Or whatever local task/notes tool the repo's instruction files name.
 - An external tracker only if an instruction file explicitly names it (see **Local only**).
 - `git log --oneline -30` for things already committed.
 
@@ -51,19 +51,16 @@ Use this routing. When an item fits more than one row, or none, mark it **ask**.
 
 | Item | Default destination |
 |---|---|
-| Task for the current repo, repo's instruction files name a task/notes tool | That tool |
-| Task for the current repo, repo has `backlog/` | `backlog task create` (follow the `backlog-manager` skill) |
-| Task for the current repo, no task tool | The "Open items" section of `~/projects/<project>.md` (create the section if missing) |
+| Task for the current repo, repo has `backlog/` or its instruction files name a task/notes tool | That tool (for backlog: `backlog task create`, following the `backlog-manager` skill) |
+| Task for the current repo, no task tool | The "Open items" section of the project note from Step 2 (create the section, or the note as `~/projects/<repo name>.md`, if missing) |
 | Task not tied to one repo (system, personal, cross-project) | `~/todos/YYYY-MM-DD-closer.md` (today's date) |
-| Lesson or fact about this project | Auto-memory, type `project` or `reference` |
-| Lesson that applies to all projects | `~/memories/project-conventions.md` or `~/memories/system-notes.md` |
-| Preference or correction about how Claude should work | Auto-memory, type `feedback` (with **Why:** and **How to apply:**) |
-| Fact about the user | Auto-memory, type `user` |
+| Lesson, fact, or Claude-behavior correction specific to this project | Auto-memory, type `project`, `reference` or `feedback` (feedback gets **Why:** and **How to apply:**) |
+| User-level: a lesson for all projects, a preference or correction about how Claude should work everywhere, a fact about the user | Global `~/.claude/CLAUDE.md`, as a short rule under the section it belongs to |
 | Claude mistake | Append to `~/memories/llm-mistakes-log.md` |
 | Architecture decision and its reason | `~/memories/architecture-decisions.md` |
-| Open question | Ask now in Step 4. If the user can't answer yet, save it as a task. |
+| Open question | Ask now in Step 4. If the user answers, save the answer with the row that fits it (lesson, decision, task). If they can't answer yet, save the question as a task. |
 
-Never write to a repo's tracked files (like its `CLAUDE.md` or README) without the user picking that option. That changes the repo.
+Never write to a repo's tracked files (like its `CLAUDE.md` or README) without the user picking that option. That changes the repo. The global `~/.claude/CLAUDE.md` is the one exception: it is the default for user-level items, and Step 4 already confirms each one.
 
 ## Step 4 — Show the list and confirm
 
@@ -82,8 +79,9 @@ If you found nothing, say so in one line and stop.
 
 Then use `AskUserQuestion`:
 
-- One question, `multiSelect: true`, listing items to **save as proposed** (all selected by default in your wording; the user unticks what to drop).
-- One question per **ask** item (up to the tool's limit of 4 questions per call; make more calls if needed), with 2-4 concrete destination options plus "Drop it".
+- Items to **save as proposed**: `multiSelect: true` questions with up to 4 items each (the tool allows 2-4 options per question and pre-selects nothing). Say in the question that ticked items are saved and unticked ones are dropped. A single item gets a plain question with "Save" and "Drop it".
+- One question per **ask** item, with 2-3 concrete destination options plus "Drop it" (4 options max).
+- The tool takes up to 4 questions per call; make more calls if needed.
 
 If the user drops an item, do not save it anywhere.
 
@@ -93,10 +91,11 @@ For each approved item:
 
 - Write one self-contained entry. Someone reading it in 3 weeks with no context must understand it. Include: what, why it matters, and where it came from (file path, command, error text). Use absolute dates (today is from `date +%F`), never "today" or "yesterday".
 - For auto-memory: one fact per file with the frontmatter format from the system prompt, then add the one-line pointer to `MEMORY.md`. Update an existing file instead of making a duplicate.
-- For markdown files: append, never rewrite existing content.
-- For backlog: `backlog task create "<title>" -d "<description>"`.
+- For markdown files: add the entry under the heading it belongs to (end of file when there is none); never delete or reword other entries.
+- For an **update**: change the outdated entry in place (auto-memory file, markdown line, or `timeout 30s backlog task edit <id> --append-notes '<text>'`) instead of adding a second one.
+- For backlog: `timeout 30s backlog task create '<title>' -d '<description>'`. Use single quotes: descriptions carry commands and error text, and backticks or `$` inside double quotes run as shell code. Write a `'` inside the text as `'\''`.
 - For an external system: only when an instruction file explicitly names it (see **Local only**).
 
 ## Step 6 — Report
 
-End with a short list: each saved item and the exact path or task/issue ID where it went. Then list anything dropped, so the user sees the full picture. Do not commit changes in other repos unless the user asks.
+End with a short list: each saved item and the exact path or task/issue ID where it went. Then list anything dropped, so the user sees the full picture. Last, name each git repo you left with uncommitted changes (the current repo after a backlog task; `~/projects/claude-setup` when a `~/memories/` file you wrote is a symlink into it). Do not commit changes in other repos unless the user asks.
