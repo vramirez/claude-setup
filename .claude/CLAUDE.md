@@ -8,7 +8,7 @@ The root `CLAUDE.md` in this repo is the user's GLOBAL instructions file (`~/.cl
 - Never leave a plain file or a copied folder at the expected location. Edits to a copy never reach git, and the copy silently drifts from the repo.
 - When adding something new: create it in the repo, symlink it (`ln -s` for files, `ln -sfn` for folders), and add it to the Symlink Map and setup commands in `README.md`. All in the same commit.
 - Before overwriting a plain file with a symlink, diff it against the repo copy and merge anything only the plain file has.
-- To check for drift: `find ~/.claude/skills ~/.claude/agents ~/memories -maxdepth 1 ! -type l` should list only folders and files that are not managed here.
+- To check for drift: `find ~/.claude/skills ~/.claude/agents ~/.claude/hooks ~/memories ~/code/claude-scripts -mindepth 1 -maxdepth 1 \( ! -type l -o -xtype l \)` should list only folders and files that are not managed here. It prints plain files, plain folders and broken links.
 
 ## This repo is public
 
