@@ -14,6 +14,12 @@ Version-controlled configuration for Claude Code. This repo is the single source
 | `memories/architecture-decisions.md` | `~/memories/architecture-decisions.md` | Architecture Decision Records |
 | `memories/workflow-templates.md` | `~/memories/workflow-templates.md` | Declarative prompt templates (bug fix, feature, refactor, pipeline) |
 | `scripts/pre-commit-quality-gate.sh` | `~/code/claude-scripts/pre-commit-quality-gate.sh` | Generic pre-commit hook for any project |
+| `skills/aws-infrastructure/` | `~/.claude/skills/aws-infrastructure` | AWS resources, CDK, SageMaker training, S3 |
+| `skills/aws-ml-deployment/` | `~/.claude/skills/aws-ml-deployment` | SageMaker endpoints and Bedrock |
+| `skills/backlog-manager/` | `~/.claude/skills/backlog-manager` | Tasks and epics with the backlog CLI |
+| `skills/docker-manager/` | `~/.claude/skills/docker-manager` | Docker images and containers |
+| `skills/feature-engineering/` | `~/.claude/skills/feature-engineering` | Feature engineering for ML pipelines |
+| `skills/model-training/` | `~/.claude/skills/model-training` | Model training, tuning, experiment tracking |
 | `skills/closer/` | `~/.claude/skills/closer` | `/closer`: save a long conversation's loose ends before leaving |
 | `skills/plan-new-feature/` | `~/.claude/skills/plan-new-feature` | `/plan-new-feature`: plan, TDD, and PR a feature |
 | `skills/pragmatic-programmer/` | `~/.claude/skills/pragmatic-programmer` | Pragmatic Programmer principles and the 100-tip list |
@@ -38,6 +44,12 @@ ln -sf ~/projects/claude-setup/memories/project-conventions.md ~/memories/projec
 ln -sf ~/projects/claude-setup/memories/architecture-decisions.md ~/memories/architecture-decisions.md
 ln -sf ~/projects/claude-setup/memories/workflow-templates.md ~/memories/workflow-templates.md
 ln -sf ~/projects/claude-setup/scripts/pre-commit-quality-gate.sh ~/code/claude-scripts/pre-commit-quality-gate.sh
+ln -sfn ~/projects/claude-setup/skills/aws-infrastructure ~/.claude/skills/aws-infrastructure
+ln -sfn ~/projects/claude-setup/skills/aws-ml-deployment ~/.claude/skills/aws-ml-deployment
+ln -sfn ~/projects/claude-setup/skills/backlog-manager ~/.claude/skills/backlog-manager
+ln -sfn ~/projects/claude-setup/skills/docker-manager ~/.claude/skills/docker-manager
+ln -sfn ~/projects/claude-setup/skills/feature-engineering ~/.claude/skills/feature-engineering
+ln -sfn ~/projects/claude-setup/skills/model-training ~/.claude/skills/model-training
 ln -sfn ~/projects/claude-setup/skills/closer ~/.claude/skills/closer
 ln -sfn ~/projects/claude-setup/skills/plan-new-feature ~/.claude/skills/plan-new-feature
 ln -sfn ~/projects/claude-setup/skills/pragmatic-programmer ~/.claude/skills/pragmatic-programmer
@@ -59,3 +71,5 @@ It runs 4 checks on every commit: diff size warning, scope review, Python dead c
 2. Symlink it from the expected location
 3. Add the mapping to this README
 4. Commit
+
+Repo-only rules for Claude (symlinks, public repo) are in `.claude/CLAUDE.md`. The root `CLAUDE.md` is the global instructions file.
