@@ -55,6 +55,21 @@ ln -sfn ~/projects/claude-setup/skills/plan-new-feature ~/.claude/skills/plan-ne
 ln -sfn ~/projects/claude-setup/skills/pragmatic-programmer ~/.claude/skills/pragmatic-programmer
 ```
 
+## Local-only files
+
+Some files hold machine details (hostname, users, security setup) that must not be in this public repo. They follow the same symlink pattern but are listed in `.gitignore`, so they are never committed.
+
+| Repo path | Symlinked from | Purpose |
+|-----------|---------------|---------|
+| `memories/system-notes.md` | `~/memories/system-notes.md` | Notes about this machine: fixes, quirks, setup facts |
+
+Create it on a new machine (starts empty, fill it in as you go):
+
+```bash
+printf '# System Notes\n' > ~/projects/claude-setup/memories/system-notes.md
+ln -sf ~/projects/claude-setup/memories/system-notes.md ~/memories/system-notes.md
+```
+
 ## Using the pre-commit hook
 
 Symlink into any git project:
