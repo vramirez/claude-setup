@@ -7,7 +7,6 @@ Version-controlled configuration for Claude Code. This repo is the single source
 | Repo path | Symlinked from | Purpose |
 |-----------|---------------|---------|
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` | Global Claude Code instructions (rules, preferences, workflow) |
-| `settings.json` | `~/.claude/settings.json` | Global settings: permissions, hooks, plugins |
 | `settings.local.json` | `~/.claude/settings.local.json` | Extra permission rules |
 | `notification_sound.txt` | `~/.claude/notification_sound.txt` | Notification sound file path |
 | `hooks/git-rules.sh` | `~/.claude/hooks/git-rules.sh` | PreToolUse hook: prints commit rules before `git`/`gh` commands |
@@ -43,14 +42,13 @@ cd ~/projects/claude-setup
 mkdir -p ~/.claude/agents ~/.claude/skills ~/.claude/hooks ~/memories ~/code/claude-scripts
 
 # A plain file or folder already at a target must be diffed against the repo and
-# removed first (Claude Code creates ~/.claude/settings.json on first run):
+# removed first (settings.json is handled in Local-only files below):
 # ln -sf overwrites a plain file, and ln -sfn puts the link INSIDE a plain folder.
 # This lists plain items in the target folders; only unmanaged ones should show up:
 find ~/.claude/skills ~/.claude/agents ~/.claude/hooks ~/memories ~/code/claude-scripts -mindepth 1 -maxdepth 1 ! -type l
 
 # Symlink everything
 ln -sf ~/projects/claude-setup/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/projects/claude-setup/settings.json ~/.claude/settings.json
 ln -sf ~/projects/claude-setup/settings.local.json ~/.claude/settings.local.json
 ln -sf ~/projects/claude-setup/notification_sound.txt ~/.claude/notification_sound.txt
 ln -sf ~/projects/claude-setup/hooks/git-rules.sh ~/.claude/hooks/git-rules.sh
@@ -85,6 +83,7 @@ Some files hold machine details (hostname, users, security setup) that must not 
 | `memories/llm-mistakes-log.md` | `~/memories/llm-mistakes-log.md` | Running log of LLM mistakes (names private projects) |
 | `memories/project-conventions.md` | `~/memories/project-conventions.md` | Per-project facts (stack, buckets, constraints) |
 | `CLAUDE.personal.md` | `~/.claude/CLAUDE.personal.md` | Personal details, imported by `CLAUDE.md` via `@~/.claude/CLAUDE.personal.md` |
+| `settings.json` | `~/.claude/settings.json` | Global settings: permissions, hooks, plugins (holds host-specific rules and paths) |
 
 Create it on a new machine (starts empty, fill it in as you go). The `[ -e ]` guard keeps a re-run from wiping existing notes:
 
@@ -97,6 +96,9 @@ done
 ln -sf ~/projects/claude-setup/memories/llm-mistakes-log.md ~/memories/llm-mistakes-log.md
 ln -sf ~/projects/claude-setup/memories/project-conventions.md ~/memories/project-conventions.md
 ln -sf ~/projects/claude-setup/CLAUDE.personal.md ~/.claude/CLAUDE.personal.md
+# settings.json: if Claude Code already made ~/.claude/settings.json, move it into the repo first
+[ -e ~/projects/claude-setup/settings.json ] || { [ -f ~/.claude/settings.json ] && mv ~/.claude/settings.json ~/projects/claude-setup/settings.json || printf '{}\n' > ~/projects/claude-setup/settings.json; }
+ln -sf ~/projects/claude-setup/settings.json ~/.claude/settings.json
 ```
 
 ## Using the pre-commit hook
