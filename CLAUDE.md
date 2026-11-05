@@ -58,6 +58,7 @@ These rules counter known LLM coding-agent failure modes. Follow them on every t
 
 # About User
 
+@~/.claude/CLAUDE.personal.md
 
 # Environment
 
