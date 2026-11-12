@@ -1,0 +1,6 @@
+# Local-only: symlinked like the rest, but holds host details that must not be public
+memories/system-notes.md
+memories/llm-mistakes-log.md
+memories/project-conventions.md
+CLAUDE.personal.md
+settings.json

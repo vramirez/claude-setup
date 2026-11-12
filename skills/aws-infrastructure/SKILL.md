@@ -152,7 +152,7 @@ aws logs tail /aws/sagemaker/TrainingJobs --follow
 ## Project-Specific Resources
 
 ### S3 Buckets
-- `<training-bucket>` - ML model training data and artifacts
+- `<training-bucket>` - ML model training data and artifacts (real bucket names: `~/memories/project-conventions.md`, local only)
   - `data/` - Training datasets
   - `output/` - Model artifacts from SageMaker jobs
   - `source/` - Training source code archives
