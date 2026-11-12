@@ -29,6 +29,7 @@ Version-controlled configuration for Claude Code. This repo is the single source
 | `skills/closer/` | `~/.claude/skills/closer` | `/closer`: save a long conversation's loose ends before leaving |
 | `skills/plan-new-feature/` | `~/.claude/skills/plan-new-feature` | `/plan-new-feature`: plan, TDD, and PR a feature |
 | `skills/pragmatic-programmer/` | `~/.claude/skills/pragmatic-programmer` | Pragmatic Programmer principles and the 100-tip list |
+| `skills/explain-diff/` | `~/.claude/skills/explain-diff` | `/explain-diff`: interactive HTML explanation of a diff, branch, or PR |
 
 ## Setup on a new machine
 
@@ -71,6 +72,7 @@ ln -sfn ~/projects/claude-setup/skills/model-training ~/.claude/skills/model-tra
 ln -sfn ~/projects/claude-setup/skills/closer ~/.claude/skills/closer
 ln -sfn ~/projects/claude-setup/skills/plan-new-feature ~/.claude/skills/plan-new-feature
 ln -sfn ~/projects/claude-setup/skills/pragmatic-programmer ~/.claude/skills/pragmatic-programmer
+ln -sfn ~/projects/claude-setup/skills/explain-diff ~/.claude/skills/explain-diff
 ```
 
 ## Local-only files
